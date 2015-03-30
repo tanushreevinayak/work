@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<constant name="struts.devMode" value="true" />
+   <package name="default" extends="struts-default">
+   <!--  -->
+   		<!-- Login Intercepter -->
+        <interceptors>
+            <interceptor name="authentication"
+                class="edu.iiitb.sis.actions.authentication.AuthenticationInterceptor"></interceptor>
+            <interceptor-stack name="authStack">
+                <interceptor-ref name="authentication"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+ 
+        <default-interceptor-ref name="authStack"></default-interceptor-ref>
+ 
+        <global-results>
+            <result name="login" type="redirect">/home.action</result>
+        </global-results>
+         <action name="home">
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>/jsp/main.jsp</result>
+        </action>
+        <!-- End of Login Intercepter -->
+        
+        <!--Author : Mahesh, Authentication Actions -->
+       <action name="AdminHomePageAction" class="edu.iiitb.sis.actions.authentication.HomePageAction" method="execute">
+           	<result name="success">/jsp/adminPages/admin.jsp</result> 
+       </action>
+      <action name="FacultyHomePageAction" class="edu.iiitb.sis.actions.authentication.HomePageAction" method="execute">
+           	<result name="success">/jsp/facultyPages/faculty.jsp</result> 
+       </action>
+       <action name="StudentHomePageAction" class="edu.iiitb.sis.actions.authentication.HomePageAction" method="execute">
+           	<result name="success">/jsp/studentPages/student.jsp</result> 
+       </action>
+       
+       <!-- Login Action -->
+      <action name="Login" class="edu.iiitb.sis.actions.authentication.LoginAction"  method ="execute">
+      <interceptor-ref name="defaultStack"></interceptor-ref>
+        <result name="Admin" type="chain">AdminHomePageAction</result> 
+        <result name="Faculty" type="chain">FacultyHomePageAction</result>
+        <result name="Student" type="chain">StudentHomePageAction</result>
+        <result name="failure" >/jsp/index.jsp</result>
+      </action>
+      
+      <!-- Logout Actions -->
+      <action name="Logout" class="edu.iiitb.sis.actions.authentication.LogoutAction"  method ="execute">
+        <result name="success">/jsp/main.jsp</result> 
+      </action>
+      
+      <!-- Forgot Password Actions -->
+       <action name="forgotPassword" class="edu.iiitb.sis.actions.authentication.ForgotPasswordAction"  method ="execute">
+        <interceptor-ref name="defaultStack"></interceptor-ref>
+        <result name="success">/jsp/main.jsp</result> 
+        <result name="failure">/jsp/main.jsp</result>
+      </action>
+      
+       <!-- Author : Mahesh, Admin Module -->
+      
+      		<!-- Adding/Updating Student Actions -->
+      <action name="AddStudentPage" class="edu.iiitb.sis.actions.admin.student.AddStudentPage"  method ="execute">
+        <result name="success">/jsp/adminPages/studentPages/addStudent.jsp</result> 
+      </action>
+      <action name="AddStudent" class="edu.iiitb.sis.actions.admin.student.AddStudentAction"  method ="execute">
+        <result name="success">/jsp/adminPages/studentPages/addStudent.jsp</result> 
+        <result name="failure">/jsp/adminPages/studentPages/addStudent.jsp</result>
+      </action>
+      
+       <action name="searchStudent" class="edu.iiitb.sis.actions.admin.student.SearchStudentAction"  method ="execute">
+        <result name="success">/jsp/adminPages/studentPages/searchStudentToUpdate.jsp</result> 
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+      
+       <action name="updateStudentDetails" class="edu.iiitb.sis.actions.admin.student.UpdateStudentDetailsAction"  method ="execute">
+        <result name="success" type="chain">searchStudent</result> 
+        <result name="failure" type="chain">searchStudent</result>
+      </action>
+      
+      <action name="getStudentDetails" class="edu.iiitb.sis.actions.admin.student.GetStudentDetails"  method ="execute">
+        <result name="success">/jsp/adminPages/studentPages/updateStudentDetails.jsp</result> 
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+      
+      
+     		 <!-- Adding/Updating Faculty Actions -->
+     		 
+      <action name="AddFacultyPage" class="edu.iiitb.sis.actions.admin.faculty.AddFacultyPage"  method ="execute">
+        <result name="success">/jsp/adminPages/facultyPages/addFaculty.jsp</result> 
+      </action>
+      
+      <action name="AddFaculty" class="edu.iiitb.sis.actions.admin.faculty.AddFacultyAction"  method ="execute">
+        <result name="success">/jsp/adminPages/facultyPages/addFaculty.jsp</result> 
+        <result name="failure">/jsp/adminPages/facultyPages/addFaculty.jsp</result>
+      </action>
+      
+       <action name="searchFaculty" class="edu.iiitb.sis.actions.admin.faculty.SearchFacultyAction"  method ="execute">
+        <result name="success">/jsp/adminPages/facultyPages/searchFacultyToUpdate.jsp</result> 
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+      
+       <action name="updateFacultyDetails" class="edu.iiitb.sis.actions.admin.faculty.UpdateFacultyDetailsAction"  method ="execute">
+        <result name="success" type="chain">searchFaculty</result> 
+        <result name="failure" type="chain">searchFaculty</result>
+      </action>
+      
+      <action name="getFacultyDetails" class="edu.iiitb.sis.actions.admin.faculty.GetFacultyDetailsAction"  method ="execute">
+        <result name="success">/jsp/adminPages/facultyPages/updateFacultyDetails.jsp</result> 
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+      
+      <!-- Interest Actions -->
+      <action name="addInterestPage" class="edu.iiitb.sis.actions.admin.interest.AddInterestPageAction" >
+		<result name="success">/jsp/adminPages/interestPages/AdminAddInterest.jsp</result>
+   	 </action>
+      <action name="add_interest" class="edu.iiitb.sis.actions.admin.interest.Admin_Add_Interest_Action" >
+		<result name="success">/jsp/adminPages/interestPages/AdminAddInterest.jsp</result>
+		<result name="failure">/jsp/adminPages/interestPages/AdminAddInterest.jsp</result>
+   	 </action>
+
+           <!-- Adding/Deleting Announcement Actions  -->
+      <action name="addAnnouncementPage" class="edu.iiitb.sis.actions.admin.announcement.AddAnnouncementPage"  method ="execute">
+        <result name="success">/jsp/adminPages/announcementPages/addAnnouncement.jsp</result> 
+      </action>
+     
+      <action name="AddAnnouncement" class="edu.iiitb.sis.actions.admin.announcement.AddAnnouncementAction"  method ="execute">
+        <result name="success">/jsp/adminPages/announcementPages/addAnnouncement.jsp</result> 
+        <result name="failure">/jsp/adminPages/announcementPages/addAnnouncement.jsp</result>
+      </action>
+      
+      <action name="deleteAnnouncementPage" class="edu.iiitb.sis.actions.admin.announcement.DeleteAnnouncementPage"  method ="execute">
+        <result name="success">/jsp/adminPages/announcementPages/deleteAnnouncement.jsp</result> 
+      </action>
+      
+       <action name="deleteAnnouncement" class="edu.iiitb.sis.actions.admin.announcement.DeleteAnnouncement"  method ="execute">
+        <result name="success" type="chain">deleteAnnouncementPage</result> 
+        <result name="failure" type="chain">deleteAnnouncementPage</result>
+      </action>
+      
+      		<!-- Adding/Deleting News Actions -->
+      <action name="addNewsPage" class="edu.iiitb.sis.actions.admin.news.AddNewsPage"  method ="execute">
+        <result name="success">/jsp/adminPages/newsPages/addNews.jsp</result> 
+      </action>
+     
+      <action name="AddNews" class="edu.iiitb.sis.actions.admin.news.AddNewsAction"  method ="execute">
+        <result name="success" type="chain">addNewsPage</result> 
+        <result name="failure" type="chain">addNewsPage</result>
+      </action>
+      
+      <action name="deleteNewsPage" class="edu.iiitb.sis.actions.admin.news.DeleteNewsPage"  method ="execute">
+        <result name="success">/jsp/adminPages/newsPages/deleteNews.jsp</result> 
+      </action>
+      
+       <action name="deleteNews" class="edu.iiitb.sis.actions.admin.news.DeleteNews"  method ="execute">
+        <result name="success" type="chain">deleteNewsPage</result> 
+        <result name="failure" type="chain">deleteNewsPage</result>
+      </action>
+      
+<!-- Add Semester  -->
+<!-- Rahul adding semester details -->
+
+      <action name="addSemesterPage" class="edu.iiitb.sis.actions.admin.courses.AddSemesterPageAction"  method ="execute">
+        <result name="success">/jsp/adminPages/coursePages/AddSemesterDetails.jsp</result> 
+      </action>
+
+      <action name="AddSemesterDetails" class="edu.iiitb.sis.actions.admin.courses.AddSemesterDetailsAction"  method ="execute">
+        <result name="success">/jsp/adminPages/coursePages/AddSemesterDetails.jsp</result> 
+      </action>
+
+<!-- Delete Semester -->
+<!-- rahul deleting semester -->
+
+      <action name="deleteSemesterPage" class="edu.iiitb.sis.actions.admin.courses.DeleteSemesterPageAction"  method ="execute">
+        <result name="success">/jsp/adminPages/coursePages/DeleteSemester.jsp</result> 
+      </action>
+      
+      <action name="AdminDeleteSemester" class="edu.iiitb.sis.actions.admin.courses.AdminDeleteSemesterAction" method="execute">
+      <result name="success">/jsp/adminPages/coursePages/DeleteSemester.jsp</result>
+      </action>
+      
+      
+      
+      
+      <!-- Adding Courses Actions -->
+      <!-- Rahul adding semester option in add course -->
+<!--    <action name="addCoursePage" class="edu.iiitb.sis.actions.admin.courses.AddCoursePage"  method ="execute">
+        <result name="success">/jsp/adminPages/coursePages/AddSemester.jsp</result> 
+      </action>
+ -->
+      <action name="addCoursePage" class="edu.iiitb.sis.actions.admin.courses.AddSemesterPage"  method ="execute">
+        <result name="success">/jsp/adminPages/coursePages/AddSemester.jsp</result> 
+      </action>
+      
+      <action name="AdminAddSemesterCourse" class="edu.iiitb.sis.actions.admin.courses.AdminViewSemesterCourse" method="execute">
+      <result name="success">/jsp/adminPages/coursePages/addCoursePage.jsp</result>
+      </action>
+      
+      
+     
+      <action name="AddCourse" class="edu.iiitb.sis.actions.admin.courses.AddCourseAction"  method ="execute">
+        <result name="success">/jsp/adminPages/coursePages/addCoursePage.jsp</result> 
+        <result name="failure">/jsp/adminPages/coursePages/addCoursePage.jsp</result>
+      </action>
+      
+      
+      <!-- Assign Grades Actions -->
+    	
+ 	 <!-- aUTHOR :MONIC FOR ASSIGN GRADES  -->
+  	  <action name="assigngradesstart" class="edu.iiitb.sis.actions.faculty.AssignGradesFacultyAction" method="execute">
+ 	  <result name="success">/jsp/facultyPages/assignGradesPages/assigngradesstartpage.jsp</result>
+	  <result name="failure">/jsp/facultyPages/assignGradesPages/assigngradesstartpage.jsp</result>
+      </action>
+ 
+  		<!--  author : monic for assign grades part 2-->
+  	<action name="AssignGradesStudentDetails" class="edu.iiitb.sis.actions.faculty.AssignGradesGetStudentsAction" method="execute">
+  	<result name="success">/jsp/facultyPages/assignGradesPages/assigngradessecondpage.jsp</result>
+  	<result name="failure">/jsp/facultyPages/assignGradesPages/assigngradesstartpage.jsp</result>
+  	</action> 
+ 
+  	<!-- author: monic for assign grades part 3 -->
+  	<action  name="AssignGradesMarksDetails"  class="edu.iiitb.sis.actions.faculty.AssignGradesNoAction" method="execute">
+  	<result name="success">/jsp/facultyPages/assignGradesPages/assigngradesthirdpage.jsp</result>
+  
+  	</action>
+  
+ 	 <!-- aUTHOR: MONIC assign grades main part--> 
+ 	 <action name="AssignGradesMarkstoDatabase" class="edu.iiitb.sis.actions.faculty.AssignFacultyMainAction" method="execute">
+ 	 <result name="success" >/jsp/facultyPages/faculty.jsp </result>
+  
+ 	 </action>
+    	  
+    <!-- Assigning Courses to Faculty -->
+    
+       <action name="list" class="edu.iiitb.sis.actions.admin.faculty.Faculty_AssignSubjectAction"  method ="execute">
+       <result name="addedcourse">/jsp/adminPages/assignSubjectPages/Admin_AssignCoursetoFaculty.jsp</result>
+       </action>
+       <!-- faculty add syllabus dropdown of course_names -->
+       <action name="selectcourseaction" class="edu.iiitb.sis.actions.admin.faculty.FacultyAssignSubjectAction2" method ="execute">
+       <result name="success" type="chain" >list</result>
+       </action>
+    <!--   Author: RAHUL FOR FACULTY SEARCH -->
+	<action name="faculty_search" class="edu.iiitb.sis.actions.faculty.FacultySearchAction" method="execute">
+	<result name="success">/jsp/facultyPages/ViewFacultyProfile.jsp</result>
+	<result name="failure">/jsp/facultyPages/faculty.jsp</result>
+	</action>  
+	<!-- Author: Rahul for student Search--> 
+	  <action name="student_search" class="edu.iiitb.sis.actions.student.StudentSearchAction" method="execute">
+	  <result name="success">/jsp/studentPages/ViewStudentProfile.jsp</result>
+	  <result name="failure">/jsp/studentPages/student.jsp</result>
+	  </action>
+ 
+	 <!-- AUTHOR: SUKRITHI--> 
+	<action name="editProfilePage" class="edu.iiitb.sis.actions.admin.interest.Interest_RetrieveAction" method="execute">
+	 		<result name="success">/jsp/studentPages/editProfilePages/StudentEditProfile.jsp</result>
+     </action>
+ 		<!-- AUTHOR: SUKRITHI-->       
+       <action name="StudentEdit" class="edu.iiitb.sis.actions.student.StudentEditAction" method="execute">
+       <result name="success">/jsp/studentPages/editProfilePages/StudentEditProfile.jsp</result>
+       <result name="failure">/jsp/studentPages/editProfilePages/StudentEditProfile.jsp</result>
+       </action>
+        <!-- AUTHOR: SUKRITHI-->
+       <action name="FacultyEdit" class="edu.iiitb.sis.actions.faculty.FacultyEditAction" method="execute">
+       <result name="success">/jsp/facultyPages/editProfilePages/FacultyEditProfile.jsp</result>
+       </action>
+    	
+       <action name="FacultyEditProfilePage" class="edu.iiitb.sis.actions.faculty.FacultyEditProfilePage" method="execute">
+       <result name="success">/jsp/facultyPages/editProfilePages/FacultyEditProfile.jsp</result>
+       </action>	
+      
+      <!-- View Syllabus Actions -->
+    	  <action name="viewSyllabusPage" class="edu.iiitb.sis.actions.student.ViewSyllabusPage" method="execute">
+       			<result name="success">/jsp/studentPages/viewSyllabus/viewSyllabus.jsp</result>
+       </action>
+    	<action name="getSyllabus" class="edu.iiitb.sis.actions.student.ViewSyllabus" method="execute">
+       			<result name="success">/jsp/studentPages/viewSyllabus/viewSyllabus.jsp</result>
+       </action>  
+       <!-- View Results -->
+       <action name="Result" class="edu.iiitb.sis.actions.student.Result" method="execute">
+      	<result name="success">/jsp/studentPages/viewResult/ShowResult.jsp</result>
+      	<result name="failure">/jsp/studentPages/viewResult/ShowResult.jsp</result>
+       </action>
+	    
+       <!-- Author monic_add_syllabus -->
+	<action name="SelectSubjectToAddSyllabusAction" class="edu.iiitb.sis.actions.admin.AddSyllabus.SelectSubjectToAddSyllabusAction" method="execute">
+	<result name="success">/jsp/adminPages/AddSyllabusPages/SelectSubjectToAddSyllabus.jsp</result>
+	</action>
+	
+	<action name="AddSyllabusForSelectedSubject" class="edu.iiitb.sis.actions.admin.AddSyllabus.AddSyllabusForSelectedSubjectAction" method="execute">
+	<result name="success">/jsp/adminPages/admin.jsp</result>
+	</action>
+       
+       <!-- Student Enrollment -->
+       
+<!--Rahul enroll semester-->
+      <action name="Enrollment" class="edu.iiitb.sis.actions.student.viewSemesterPage"  method ="execute">
+        <result name="success">/jsp/studentPages/enrollment/studentSemesterEnrollment.jsp</result>
+      </action>
+
+    	<action name="getSemesterCourses" class="edu.iiitb.sis.actions.student.ViewSemesterCourses" method="execute">
+       			<result name="success">/jsp/studentPages/enrollment/getSemesterCourse.jsp</result>
+       </action>  
+
+
+<!-- 
+      <action name="Enrollment" class="edu.iiitb.sis.actions.student.enrollment.Student_Subjects_Enrollment"  method ="execute">
+        <result name="success">/jsp/studentPages/enrollment/Student_Subject_Enrollment.jsp</result>
+      </action>
+ -->
+   
+      <action name="enrollsubjects" class="edu.iiitb.sis.actions.student.enrollment.Student_Subjects_enrolled"  method ="execute">
+        <result name="success">/jsp/studentPages/enrollment/getSemesterCourse.jsp</result>
+        <result name="failure">/jsp/studentPages/enrollment/Student_Subject_Enrollment.jsp</result>
+      </action>
+ 
+     
+     <action name="getImage"
+          class="edu.iiitb.sis.actions.student.GetImage" 
+          method ="execute">
+      </action>
+       
+       
+  </package>
+</struts>

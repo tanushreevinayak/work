@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<constant name="struts.devMode" value="true" />
+   <package name="default" extends="struts-default">
+          
+      <action name="Login" class="edu.iiitb.sis.actions.authentication.LoginAction"  method ="execute">
+        <result name="Admin">/jsp/adminPages/admin.jsp</result> 
+        <result name="Faculty">/jsp/facultyPages/faculty.jsp</result>
+        <result name="Student">/jsp/studentPages/student.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+     
+      <action name="AddSubjects" class="edu.iiitb.sis.actions.admin.AddSubjects"  method ="execute">
+        <result name="success">/jsp/adminPages/subjectPages/AddUpdateSubjects.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+      <action name="Enrollment" class="edu.iiitb.sis.actions.admin.Enrollment"  method ="execute">
+        <result name="success">/jsp/studentPages/Courses/Enrollment.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+      
+      <action name="enr" class="edu.iiitb.sis.actions.admin.Subjectsenrolled"  method ="execute">
+        <result name="success">/jsp/studentPages/Courses/Enrollment.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+     
+      
+      <action name="UpdateOption" class="edu.iiitb.sis.actions.admin.UpdateOption"  method ="execute">
+        <result name="success">/jsp/adminPages/subjectPages/UpdateSubjects.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+     
+     
+     
+      <action name="RemoveSubjects" class="edu.iiitb.sis.actions.admin.RemoveSubjects"  method ="execute">
+        <result name="success">/jsp/adminPages/subjectPages/RemoveSubjects.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+    
+      <action name="UpdateSubjects" class="edu.iiitb.sis.actions.admin.UpdateSubjects"  method ="execute">
+        <result name="success">/jsp/adminPages/subjectPages/UpdateOption.jsp</result>
+        <result name="failure">/jsp/index.jsp</result>
+      </action>
+       
+  </package>
+</struts>
